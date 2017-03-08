@@ -1,0 +1,98 @@
+@extends('app')
+@section('content')
+
+<div class="container">
+	<ol class="breadcrumb">
+	  <li><a href="<?php url(); ?>/home">Home</a></li>
+	  <li><a href="<?php url(); ?>/user">User</a></li>
+	  <li class="active">Buat Kategori</li>
+	</ol>
+    <div class="panel panel-default">
+        <div class="panel-body">
+        	@if(Session::has('success'))
+                <div class="alert alert-success">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa fa-check-circle"></i>
+                    {{ Session::get('success') }}
+                </div>
+                @endif
+
+
+                @if(Session::has('error'))
+                <div class="alert alert-danger">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa fa-times-circle"></i>
+                    {{ Session::get('error') }}
+                </div>
+                @endif     
+            <form action="{{ url() }}/user/store" id="form" role="form" method="post">
+                <div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Nama Lengkap <span class="symbol required"></span></label>
+								<input type="hidden" name="id" class="input-xlarge" placeholder="" value="" />
+								<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+								<input type="text" name="name" class="form-control" placeholder="" value="" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Email <span class="symbol required"></span></label>
+							<input type="text" name="email" class="form-control" placeholder="" value="" />
+						</div>				
+						<div class="form-group">
+							<label class="control-label">Kata sandi <span class="symbol required"></span></label>
+							<input type="password" name="password" id="password" value=""  class="form-control" placeholder="" />
+						</div>	
+						<div class="form-group">
+							<label class="control-label">Ulangi kata sandi <span class="symbol required"></span></label>
+							<input type="password" id="password2" name="password2"  value="" class="form-control" placeholder="" />
+						</div>	
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Grup User <span class="symbol required"></span></label>
+								<!-- select group user -->
+								<select id='cmbgroup' style="width:100%" name="cmbgroup" class="form-control">
+                                <?php
+                                    foreach ($Group_user as $row):
+                                ?>  
+                                        <option value="{{ $row->id }}">{{ $row->nama_group }}</option>
+                                <?php
+                                    endforeach;
+                                ?>
+                            </select>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Status <span class="symbol required"></span></label>
+							<!-- select status -->
+							<select class="form-control" id='cmbstatus' name='cmbstatus'>
+								<option value='1'>Active</option>
+								<option value='0'>NonActive</option>
+							</select>
+						</div>
+					</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-md-8">
+						</div>
+						<div class="col-md-4">
+							<button class="btn btn-primary btn-block" type="submit">
+								Submit <i class="fa fa-arrow-circle-right"></i>
+							</button>
+						</div>
+					</div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+
+<!-- js and css -->
+<script src="{{ asset('/js/jquery.validate.min.js')}}"></script>
+<script src="{{ asset('/js/user_form.js')}}"></script>
+@endsection
